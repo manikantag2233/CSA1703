@@ -1,0 +1,32 @@
+print("manikanta")
+def tsp_dynamic_programming(distance_matrix):
+    n = len(distance_matrix)
+    memo = {}
+
+    def visit(city, visited):
+        if visited == (1 << n) - 1:  # All cities visited
+            return distance_matrix[city][0]  # Return to starting city
+        if (city, visited) in memo:
+            return memo[(city, visited)]
+        
+        min_distance = float('inf')
+        for next_city in range(n):
+            if visited & (1 << next_city) == 0:  # If next_city not visited
+                new_visited = visited | (1 << next_city)
+                distance = distance_matrix[city][next_city] + visit(next_city, new_visited)
+                min_distance = min(min_distance, distance)
+        
+        memo[(city, visited)] = min_distance
+        return min_distance
+
+    return visit(0, 1)  # Start from city 0 with only city 0 visited
+
+# Example usage
+distance_matrix = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+min_distance = tsp_dynamic_programming(distance_matrix)
+print("Minimum distance:", min_distance)
