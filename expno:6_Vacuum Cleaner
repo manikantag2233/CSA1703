@@ -1,0 +1,31 @@
+print("manikanta")
+class VacuumCleaner:
+    def __init__(self, grid):
+        self.grid = grid
+        self.cleaned = set()
+        self.directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # right, down, left, up
+
+    def clean(self, x, y):
+        if (x, y) not in self.cleaned and self.grid[x][y] == 1:
+            self.cleaned.add((x, y))
+            print(f"Cleaned position: ({x}, {y})")
+
+    def move(self, x, y):
+        for dx, dy in self.directions:
+            new_x, new_y = x + dx, y + dy
+            if 0 <= new_x < len(self.grid) and 0 <= new_y < len(self.grid[0]) and self.grid[new_x][new_y] != -1:
+                self.clean(new_x, new_y)
+                self.move(new_x, new_y)
+
+    def start_cleaning(self, start_x, start_y):
+        self.clean(start_x, start_y)
+        self.move(start_x, start_y)
+
+# Example usage
+grid = [
+    [1, 0, -1, 1],
+    [1, 1, 1, 0],
+    [0, -1, 1, 1]
+]
+vacuum = VacuumCleaner(grid)
+vacuum.start_cleaning(0, 0)
