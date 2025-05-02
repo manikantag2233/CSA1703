@@ -1,0 +1,74 @@
+from collections import deque
+print("manikanta")
+# Define a state as (missionaries_left, cannibals_left, boat_position)
+# boat_position: 1 for left, 0 for right
+
+class State:
+    def __init__(self, missionaries, cannibals, boat, path=None):
+        self.missionaries = missionaries
+        self.cannibals = cannibals
+        self.boat = boat
+        self.path = path or []
+
+    def is_valid(self):
+        # Check for out-of-bound values
+        if self.missionaries < 0 or self.cannibals < 0 or self.missionaries > 3 or self.cannibals > 3:
+            return False
+        # Missionaries must not be outnumbered by cannibals on either side
+        m_right = 3 - self.missionaries
+        c_right = 3 - self.cannibals
+        if (self.missionaries > 0 and self.missionaries < self.cannibals):
+            return False
+        if (m_right > 0 and m_right < c_right):
+            return False
+        return True
+
+    def is_goal(self):
+        return self.missionaries == 0 and self.cannibals == 0 and self.boat == 0
+
+    def get_successors(self):
+        successors = []
+        moves = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]  # Possible boat moves
+        for m, c in moves:
+            if self.boat:  # Boat on the left side
+                new_state = State(self.missionaries - m, self.cannibals - c, 0, self.path + [self])
+            else:  # Boat on the right side
+                new_state = State(self.missionaries + m, self.cannibals + c, 1, self.path + [self])
+            if new_state.is_valid():
+                successors.append(new_state)
+        return successors
+
+    def __eq__(self, other):
+        return (self.missionaries == other.missionaries and
+                self.cannibals == other.cannibals and
+                self.boat == other.boat)
+
+    def __hash__(self):
+        return hash((self.missionaries, self.cannibals, self.boat))
+
+    def __repr__(self):
+        side = "Left" if self.boat else "Right"
+        return f"(M: {self.missionaries}, C: {self.cannibals}, Boat: {side})"
+
+def solve():
+    initial_state = State(3, 3, 1)
+    queue = deque([initial_state])
+    visited = set()
+
+    while queue:
+        current = queue.popleft()
+        if current.is_goal():
+            return current.path + [current]
+        visited.add(current)
+        for state in current.get_successors():
+            if state not in visited:
+                queue.append(state)
+    return None
+
+# Run the solver and print the solution
+solution = solve()
+if solution:
+    for step in solution:
+        print(step)
+else:
+    print("No solution found.")
