@@ -1,0 +1,31 @@
+import itertools
+print ("manikanta")
+def solve_cryptarithmetic():
+    # The unique letters in the puzzle
+    letters = 'SENDMORY'
+    # Ensure all letters are unique
+    assert len(set(letters)) == len(letters)
+
+    # All possible digit permutations of length 8 (since there are 8 unique letters)
+    for perm in itertools.permutations(range(10), len(letters)):
+        letter_digit = dict(zip(letters, perm))
+
+        # Skip if 'S' or 'M' is 0 (leading digits cannot be zero)
+        if letter_digit['S'] == 0 or letter_digit['M'] == 0:
+            continue
+
+        # Convert the words to numbers based on current letter-digit mapping
+        send = 1000*letter_digit['S'] + 100*letter_digit['E'] + 10*letter_digit['N'] + letter_digit['D']
+        more = 1000*letter_digit['M'] + 100*letter_digit['O'] + 10*letter_digit['R'] + letter_digit['E']
+        money = 10000*letter_digit['M'] + 1000*letter_digit['O'] + 100*letter_digit['N'] + 10*letter_digit['E'] + letter_digit['Y']
+
+        if send + more == money:
+            print(f"SEND + MORE = MONEY")
+            print(f"{send} + {more} = {money}")
+            print("Solution:", letter_digit)
+            return
+
+    print("No solution found.")
+
+# Run the solver
+solve_cryptarithmetic()
