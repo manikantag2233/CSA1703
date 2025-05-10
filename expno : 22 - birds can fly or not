@@ -1,0 +1,17 @@
+% Facts: Birds that can and cannot fly
+can_fly(sparrow).
+can_fly(eagle).
+can_fly(pigeon).
+can_fly(parrot).
+cannot_fly(penguin).
+cannot_fly(ostrich).
+cannot_fly(kiwi).
+
+% Rule to check if a bird can fly
+flies(Bird) :- can_fly(Bird), write(Bird), write(' can fly!'), nl.
+flies(Bird) :- cannot_fly(Bird), write(Bird), write(' cannot fly!'), nl.
+
+% Example queries:
+% ?- flies(sparrow).
+% ?- flies(penguin).
+% ?- flies(eagle).
