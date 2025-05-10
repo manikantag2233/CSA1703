@@ -1,0 +1,21 @@
+% Facts: Symptoms associated with diseases
+disease(flu, [fever, cough, sore_throat, fatigue]).
+disease(cold, [cough, sneezing, runny_nose]).
+disease(covid, [fever, cough, loss_of_taste, difficulty_breathing]).
+disease(malaria, [fever, chills, sweating, nausea]).
+disease(diabetes, [frequent_urination, excessive_thirst, fatigue, weight_loss]).
+disease(hypertension, [headache, dizziness, blurred_vision]).
+
+% Rule to diagnose a disease based on symptoms
+diagnose(Disease, Symptoms) :-
+    disease(Disease, DiseaseSymptoms),
+    subset(Symptoms, DiseaseSymptoms),
+    write('Potential Diagnosis: '), write(Disease), nl.
+
+% Helper function: Checks if all given symptoms exist in a disease
+subset([], _).
+subset([H|T], List) :- member(H, List), subset(T, List).
+
+% Example Queries:
+% ?- diagnose(Disease, [fever, cough]).
+% ?- diagnose(Disease, [blurred_vision, dizziness]).
