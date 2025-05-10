@@ -1,0 +1,47 @@
+% Facts: Example graph with heuristic values (Format: node, heuristic value)
+heuristic(a, 6).
+heuristic(b, 4).
+heuristic(c, 5).
+heuristic(d, 7).
+heuristic(e, 3).
+heuristic(f, 2).
+heuristic(g, 1).  % Goal node with the lowest heuristic value
+
+% Graph connections (Format: node, neighbor, cost)
+edge(a, b, 2).
+edge(a, c, 4).
+edge(b, d, 5).
+edge(b, e, 1).
+edge(c, f, 6).
+edge(e, g, 3).
+edge(f, g, 2).
+edge(d, g, 4).
+
+% Best First Search Algorithm
+best_first_search(Start, Goal, Path) :-
+    bfs_helper([(Start, [])], Goal, Path).
+
+% Helper function: Expands nodes based on heuristic values
+bfs_helper([(Goal, Path)|_], Goal, FinalPath) :-
+    reverse([Goal|Path], FinalPath), 
+    write('Solution Path: '), write(FinalPath), nl.
+
+bfs_helper([(Current, Path)|Rest], Goal, Solution) :-
+    findall((Next, [Current|Path]),
+            (edge(Current, Next, _), \+ member(Next, Path)), 
+            Neighbors),
+    sort_by_heuristic(Neighbors, SortedNeighbors),
+    append(SortedNeighbors, Rest, NewQueue),
+    bfs_helper(NewQueue, Goal, Solution).
+
+% Sorting by heuristic value
+sort_by_heuristic(List, SortedList) :-
+    map_list_to_pairs(heuristic_value, List, Pairs),
+    keysort(Pairs, SortedPairs),
+    pairs_values(SortedPairs, SortedList).
+
+% Extract heuristic value for sorting
+heuristic_value((Node, _), Value) :- heuristic(Node, Value).
+
+% Example Query:
+% ?- best_first_search(a, g, Path).
