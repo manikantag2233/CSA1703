@@ -1,0 +1,39 @@
+% --- Facts: planet(Name, DistanceFromSunInMillionKm, MassIn10e24Kg, NumberOfMoons) ---
+
+planet(mercury, 57.9, 0.330, 0).
+planet(venus,   108.2, 4.87, 0).
+planet(earth,   149.6, 5.97, 1).
+planet(mars,    227.9, 0.642, 2).
+planet(jupiter, 778.3, 1898, 79).
+planet(saturn,  1427,  568, 82).
+planet(uranus,  2871,  86.8, 27).
+planet(neptune, 4497,  102, 14).
+
+% --- Rules ---
+
+% Find a planet by name
+find_planet(Name, Distance, Mass, Moons) :-
+    planet(Name, Distance, Mass, Moons).
+
+% Find planets with more than a certain number of moons
+many_moons(Threshold, Name) :-
+    planet(Name, _, _, Moons),
+    Moons > Threshold.
+
+% Find planets closer than a given distance to the Sun
+closer_than(DistanceLimit, Name) :-
+    planet(Name, Distance, _, _),
+    Distance < DistanceLimit.
+
+% Find planets with mass greater than a certain value
+mass_greater_than(MinMass, Name) :-
+    planet(Name, _, Mass, _),
+    Mass > MinMass.
+
+% Display all planets
+list_planets :-
+    planet(Name, Distance, Mass, Moons),
+    format('~w: Distance = ~w million km, Mass = ~w x10^24 kg, Moons = ~w~n', 
+           [Name, Distance, Mass, Moons]),
+    fail.
+list_planets.  % to end loop
