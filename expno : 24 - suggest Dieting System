@@ -1,0 +1,25 @@
+% --- Facts: disease(Name). ---
+disease(diabetes).
+disease(hypertension).
+disease(obesity).
+disease(anemia).
+disease(cardiac).
+
+% --- Recommended Foods ---
+recommended(diabetes, [vegetables, whole_grains, lean_protein, legumes]).
+recommended(hypertension, [fruits, vegetables, low_fat_dairy, whole_grains]).
+recommended(obesity, [salads, fruits, boiled_vegetables, oats]).
+recommended(anemia, [red_meat, leafy_greens, beans, iron_fortified_foods]).
+recommended(cardiac, [oats, fish, fruits, vegetables, olive_oil]).
+
+% --- Foods to Avoid ---
+avoid(diabetes, [sugar, white_bread, soda, pastries]).
+avoid(hypertension, [salt, pickles, canned_foods, processed_meat]).
+avoid(obesity, [junk_food, sweets, fried_foods, sugary_drinks]).
+avoid(anemia, [coffee, tea, dairy_in_excess]).
+avoid(cardiac, [trans_fats, fried_foods, red_meat, processed_foods]).
+
+% --- Rule: suggest_diet(Disease, Recommended, Avoid) ---
+suggest_diet(Disease, Recommended, Avoid) :-
+    recommended(Disease, Recommended),
+    avoid(Disease, Avoid).
