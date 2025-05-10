@@ -1,0 +1,28 @@
+% Facts: student, teacher, subject, and subject code
+teaches('Dr. Smith', 'Mathematics', 'M101').
+teaches('Prof. Johnson', 'Physics', 'P202').
+teaches('Ms. Williams', 'Chemistry', 'C303').
+teaches('Mr. Brown', 'Computer Science', 'CS404').
+
+studies('Alice', 'Mathematics').
+studies('Bob', 'Physics').
+studies('Charlie', 'Chemistry').
+studies('Diana', 'Computer Science').
+studies('Ethan', 'Mathematics').
+studies('Sophia', 'Physics').
+
+% Rule to find the teacher for a given subject
+teacher_for_subject(Teacher, Subject) :- teaches(Teacher, Subject, _).
+
+% Rule to find the subject code for a given subject
+subject_code(Subject, Code) :- teaches(_, Subject, Code).
+
+% Rule to find the teacher of a student based on their subject
+teacher_of_student(Student, Teacher) :-
+    studies(Student, Subject),
+    teaches(Teacher, Subject, _).
+
+% Example queries:
+% ?- teacher_of_student('Alice', Teacher).
+% ?- subject_code('Physics', Code).
+% ?- teacher_for_subject(Teacher, 'Computer Science').
