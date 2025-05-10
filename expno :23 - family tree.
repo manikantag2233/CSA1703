@@ -1,0 +1,33 @@
+% Facts: Parent-child relationships
+parent(john, mary).
+parent(john, david).
+parent(susan, mary).
+parent(susan, david).
+parent(mary, alice).
+parent(mary, bob).
+parent(david, charlie).
+parent(david, eva).
+
+% Rules: Defining family relationships
+father(F, C) :- parent(F, C), male(F).
+mother(M, C) :- parent(M, C), female(M).
+sibling(A, B) :- parent(P, A), parent(P, B), A \= B.
+grandparent(GP, GC) :- parent(GP, P), parent(P, GC).
+grandchild(GC, GP) :- grandparent(GP, GC).
+
+% Gender facts
+male(john).
+male(david).
+male(bob).
+male(charlie).
+
+female(susan).
+female(mary).
+female(alice).
+female(eva).
+
+% Example queries:
+% ?- father(john, Who).
+% ?- mother(susan, Who).
+% ?- sibling(mary, Who).
+% ?- grandparent(john, Who).
