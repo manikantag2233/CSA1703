@@ -1,0 +1,14 @@
+% Rules: Diagnosis based on symptoms
+diagnose(flu) :- has_symptom(fever), has_symptom(cough), has_symptom(headache).
+diagnose(cold) :- has_symptom(cough), has_symptom(runny_nose).
+diagnose(covid) :- has_symptom(fever), has_symptom(cough), has_symptom(loss_of_taste).
+
+% Facts: Symptoms for a specific person
+has_symptom(fever).
+has_symptom(cough).
+has_symptom(headache).
+
+% Queries:
+% To check if the diagnosis matches flu: ?- diagnose(flu).
+% To check if the diagnosis matches cold: ?- diagnose(cold).
+% To check all possible diagnoses: ?- diagnose(X).
