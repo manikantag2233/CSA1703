@@ -1,0 +1,17 @@
+% Facts (Known Information)
+animal(dog).
+animal(cat).
+has_fur(dog).
+has_fur(cat).
+has_wings(bird).
+lays_eggs(bird).
+
+% Rules (Inference)
+mammal(X) :- animal(X), has_fur(X).
+bird(X) :- animal(X), has_wings(X), lays_eggs(X).
+
+% Query Examples:
+% To check if an entity is a mammal: ?- mammal(dog).
+% To check if an entity is a bird: ?- bird(bird).
+% To list all mammals: ?- mammal(X).
+% To list all birds: ?- bird(X).
