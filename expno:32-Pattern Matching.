@@ -1,0 +1,19 @@
+% Match names with predefined patterns
+match_name(john).
+match_name(mary).
+match_name(alex).
+match_name(susan).
+
+% Match animal types
+match_animal(dog).
+match_animal(cat).
+match_animal(elephant).
+
+% General pattern matching rule
+pattern_match(X) :- match_name(X).
+pattern_match(X) :- match_animal(X).
+
+% Example queries:
+% To check if "john" matches: ?- pattern_match(john).
+% To check if "dog" matches: ?- pattern_match(dog).
+% To find all matches: ?- pattern_match(X).
